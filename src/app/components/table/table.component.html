@@ -1,0 +1,79 @@
+<div class="example-header">
+  <!-- Global Search -->
+  <mat-form-field appearance="outline" class="global-search">
+    <mat-icon matPrefix class="search-icon">search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search....">
+  </mat-form-field>
+</div>
+
+
+<mat-form-field appearance="outline" class="service-filter">
+  <mat-label>Filter by Services</mat-label>
+  <mat-select [(value)]="selectedService" (selectionChange)="applyFilters()" multiple>
+    @for (service of getAllServices(); track service) {
+    <mat-option [value]="service">{{ service }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="process-filter">
+  <mat-label>Filter by Processes</mat-label>
+  <mat-select [(value)]="selectedProcess" (selectionChange)="applyFilters()" multiple>
+    @for (process of getAllProcesses(); track process) {
+    <mat-option [value]="process">{{ process }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+
+
+
+<div class="example-container mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" matSort class="custom-table">
+
+    <!-- Configuration Name Column -->
+    <ng-container matColumnDef="configName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> CONFIGURATION NAME </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.configName }} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="servicesUsing">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ASSOCIATED SERVICES </mat-header-cell>
+      <mat-cell *matCellDef="let row" class="service-cell">
+        <div class="chip-container">
+          @for (service of row.servicesUsing; track service) {
+            <mat-chip class="service-chip">{{ service }}</mat-chip>
+          }
+        </div>
+      </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="processesUsing">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ASSOCIATED PROCESSES </mat-header-cell>
+      <mat-cell *matCellDef="let row" class="process-cell">
+        <div class="chip-container">
+          @for (process of row.processesUsing; track process) {
+            <mat-chip class="process-chip">{{ process }}</mat-chip>
+          }
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> ACTIONS </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" [routerLink]="['/config-details', row.configName]">
+          View Definition
+        </button>
+      </mat-cell>
+    </ng-container>
+    
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>

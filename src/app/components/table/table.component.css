@@ -1,0 +1,179 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 300px;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  overflow: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.example-header {
+  min-height: 64px;
+  padding: 8px 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: right !important;
+}
+
+/* Search Icon */
+.search-icon {
+  color: #1e88e5;
+  margin-right: 5px;
+}
+
+/* Input Fields */
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.mat-form-field.mat-focused {
+  background: #e3f2fd;
+}
+
+/* Filter Fields */
+.service-filter,
+.process-filter {
+  width: 15%;
+  padding-left: 20px;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .service-filter,
+  .process-filter {
+    width: 100%;
+  }
+}
+
+/* Table Styling */
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.custom-table {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  border-collapse: collapse;
+  align-content: center !important;
+  table-layout: fixed;
+}
+
+.custom-table mat-header-cell,
+.custom-table mat-cell {
+  padding: 12px;
+  border-right: 1px solid #ccc;
+}
+
+.custom-table mat-header-cell {
+  font-weight: bold;
+  font-size: 16px;
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  color: black;
+  text-align: center !important;
+  justify-content: center;
+  border-bottom: 3px solid #1e88e5;
+}
+
+.custom-table mat-cell {
+  font-size: 15px;
+  border-bottom: 1px solid #cad0f0;
+  transition: background 0.3s ease-in-out;
+  
+
+}
+
+.custom-table mat-row:hover {
+  background-color: #f2f6fa;
+}
+
+.custom-table mat-cell:last-child,
+.custom-table mat-header-cell:last-child {
+  border-right: none;
+}
+
+/* Chips (Service & Process) */
+
+.process-chip {
+  margin: 3px !important;
+  font-weight: bold !important;
+  padding: 3px 3px !important;
+  background-color: #e3f2fd !important; 
+}
+.service-cell .process-cell {
+  white-space: normal !important;  /* Allows text wrapping */
+  word-break: break-word; /* Ensures long words don't overflow */
+  padding: 10px;
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap; /* Ensures chips wrap when exceeding width */
+  gap: 5px;
+}
+
+.service-chip
+ {
+
+  margin: 3px !important;
+  font-weight: bold !important;
+  padding: 3px 3px !important;
+  background-color: #e3f2fd !important;
+}
+
+
+/* Buttons */
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+button[color="accent"] {
+  background-color: green;
+  color: white;
+}
+
+button[color="accent"]:hover {
+  background-color: green;
+}
+
+/* Mat Option Styling */
+.mat-option {
+  font-size: 14px;
+  padding: 10px;
+}
+
+
+
+/* Column Width Adjustments */
+.mat-column-servicesUsing {
+  flex: 1.5;
+  min-width: 250px;
+}
+
+.mat-column-configName {
+  flex: 0.55;
+}
+
+.mat-column-processesUsing {
+  flex: 1.75;
+}
+
+.mat-column-actions {
+  flex: 0.5;
+  text-align: center;
+}

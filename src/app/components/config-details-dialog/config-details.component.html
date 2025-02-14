@@ -1,0 +1,27 @@
+<div class="container" *ngIf="configDetails">
+  <h2>{{ configDetails.ConfigName }}</h2>
+
+  <div *ngFor="let service of paginatedServices">
+    <h3>Service: {{ service.ServiceName }}</h3>  
+    <ul>
+      <li *ngFor="let usage of service.Usage">
+        → In <strong>{{ usage.ProcessName }}</strong> : {{ usage.Definition }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    <button mat-button color="primary" (click)="prevPage()" [disabled]="currentPage === 0">Previous</button>
+    <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+    <button mat-button color="primary" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Next</button>
+  </div>
+
+<br>
+  <button mat-button color="accent" (click)="goBack()">Back</button>  
+</div>
+
+<div class="container no-config-message" *ngIf="!configDetails">
+  <p>Configuration details not found.</p>
+  <button mat-button color="warn" (click)="goBack()">Back</button>
+</div>
