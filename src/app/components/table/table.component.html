@@ -1,12 +1,6 @@
-<div class="example-header">
-  <!-- Global Search -->
-  <mat-form-field appearance="outline" class="global-search">
-    <mat-icon matPrefix class="search-icon">search</mat-icon>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Search....">
-  </mat-form-field>
-</div>
 
 
+<!-- 
 <mat-form-field appearance="outline" class="service-filter">
   <mat-label>Filter by Services</mat-label>
   <mat-select [(value)]="selectedService" (selectionChange)="applyFilters()" multiple>
@@ -15,15 +9,78 @@
     }
   </mat-select>
 </mat-form-field>
+ -->
+<div></div>
+<br>
 
-<mat-form-field appearance="outline" class="process-filter">
-  <mat-label>Filter by Processes</mat-label>
-  <mat-select [(value)]="selectedProcess" (selectionChange)="applyFilters()" multiple>
-    @for (process of getAllProcesses(); track process) {
-    <mat-option [value]="process">{{ process }}</mat-option>
-    }
+<mat-form-field appearance="outline" class="config-filter">
+  <mat-label>Filter by Configs</mat-label>
+  
+
+  <mat-select [(value)]="selectedConfig" (selectionChange)="applyFilters()" multiple>
+
+    <!-- Search box inside the dropdown -->
+    <input
+    placeholder="Search configs..."
+    [(ngModel)]="configSearchTerm"
+    (input)="filterConfigs()"
+    class="search-input"
+  />
+
+    <!-- Display the filtered services -->
+    <mat-option *ngFor="let config of filteredConfigs" [value]="config">
+      {{ config }}
+    </mat-option>
   </mat-select>
 </mat-form-field>
+
+<mat-form-field appearance="outline" class="service-filter">
+  <mat-label>Filter by Services</mat-label>
+  
+
+  <mat-select [(value)]="selectedService" (selectionChange)="applyFilters()" multiple>
+
+    <!-- Search box inside the dropdown -->
+    <input
+    placeholder="Search services..."
+    [(ngModel)]="serviceSearchTerm"
+    (input)="filterServices()"
+    class="search-input"
+  />
+
+    <!-- Display the filtered services -->
+    <mat-option *ngFor="let service of filteredServices" [value]="service">
+      {{ service }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<mat-form-field appearance="outline" class="service-filter">
+  <mat-label>Filter by Processes</mat-label>
+  
+
+  <mat-select [(value)]="selectedProcess" (selectionChange)="applyFilters()" multiple>
+
+    <!-- Search box inside the dropdown -->
+    <input
+    placeholder="Search Processes..."
+    [(ngModel)]="processSearchTerm"
+    (input)="filterProcesses()"
+    class="search-input"
+  />
+
+    <!-- Display the filtered services -->
+    <mat-option *ngFor="let process of filteredProcesses" [value]="process">
+      {{ process }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+
+
+
 
 
 
@@ -64,7 +121,7 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef> ACTIONS </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <button mat-raised-button color="accent" [routerLink]="['/config-details', row.configName]">
+        <button mat-raised-button color="accent" (click)="viewDetails(row)">
           View Definition
         </button>
       </mat-cell>
@@ -75,5 +132,22 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
+  <mat-paginator
+  [length]="totalItems" 
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPageChange($event)"
+  showFirstLastButtons
+  
+  [pageIndex]="currentPage"
+  aria-label="Pagination"
+  
+>
+
+</mat-paginator>
+
+<div class="pagination-summary">
+  Page {{ currentPage + 1 }} of {{ totalPages }}
 </div>
+

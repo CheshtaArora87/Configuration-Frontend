@@ -1,27 +1,35 @@
-<div class="container" *ngIf="configDetails">
-  <h2>{{ configDetails.ConfigName }}</h2>
+<h2 mat-dialog-title class="dialog-title">
+  <span>{{ configDetails?.ConfigName }}</span>
+  <button mat-icon-button class="close-icon" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
 
-  <div *ngFor="let service of paginatedServices">
-    <h3>Service: {{ service.ServiceName }}</h3>  
-    <ul>
-      <li *ngFor="let usage of service.Usage">
-        → In <strong>{{ usage.ProcessName }}</strong> : {{ usage.Definition }}
-      </li>
-    </ul>
+<div mat-dialog-content class="dialog-content" *ngIf="configDetails">
+  <div *ngFor="let service of configDetails.Services" class="service-container">
+    <h3>Service: {{ service.ServiceName }}</h3>
+
+    <!-- Table for each service -->
+    <table mat-table [dataSource]="service.Usage">
+      <!-- Header Row -->
+      <ng-container matColumnDef="processName">
+        <th mat-header-cell *matHeaderCellDef>PROCESS</th>
+        <td mat-cell *matCellDef="let usage">{{ usage.ProcessName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="definition">
+        <th mat-header-cell *matHeaderCellDef>DEFINITION</th>
+        <td mat-cell *matCellDef="let usage">{{ usage.Definition }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>CREATED AT</th>
+        <td mat-cell *matCellDef="let usage">{{ usage.createdAt | date: 'short' }}</td>
+      </ng-container>
+
+      <!-- Table Header and Row -->
+      <tr mat-header-row *matHeaderRowDef="['processName', 'definition', 'createdAt']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['processName', 'definition', 'createdAt'];"></tr>
+    </table>
   </div>
-
-  <!-- Pagination Controls -->
-  <div class="pagination-controls">
-    <button mat-button color="primary" (click)="prevPage()" [disabled]="currentPage === 0">Previous</button>
-    <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-    <button mat-button color="primary" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Next</button>
-  </div>
-
-<br>
-  <button mat-button color="accent" (click)="goBack()">Back</button>  
-</div>
-
-<div class="container no-config-message" *ngIf="!configDetails">
-  <p>Configuration details not found.</p>
-  <button mat-button color="warn" (click)="goBack()">Back</button>
 </div>

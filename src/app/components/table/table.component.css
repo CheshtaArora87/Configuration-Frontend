@@ -26,7 +26,7 @@
   margin-right: 5px;
 }
 
-/* Input Fields */
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -41,7 +41,7 @@
 
 /* Filter Fields */
 .service-filter,
-.process-filter {
+.process-filter, .config-filter {
   width: 15%;
   padding-left: 20px;
   display: inline-block;
@@ -141,6 +141,22 @@ button {
   font-weight: bold;
   transition: background 0.3s ease-in-out;
 }
+/* Container for the search input field and the search icon */
+/* Styling for the search box inside the dropdown */
+/* Style the search input inside the dropdown */
+.search-input {
+  width: 90%;
+  margin: 10px;  /* Add margin to prevent clipping */
+  padding: 10px;
+}
+
+/* Adjust the dropdown panel */
+mat-select-panel {
+  max-height: 300px; /* Adjust the height of the dropdown */
+  overflow-y: auto;
+}
+
+
 
 button[color="accent"] {
   background-color: green;
@@ -166,7 +182,7 @@ button[color="accent"]:hover {
 }
 
 .mat-column-configName {
-  flex: 0.55;
+  flex: 0.75;
 }
 
 .mat-column-processesUsing {
@@ -177,3 +193,4 @@ button[color="accent"]:hover {
   flex: 0.5;
   text-align: center;
 }
+

@@ -1,126 +1,141 @@
-/* Main container styling */
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+/* Main Dialog Container */
+.mat-dialog-container {
+  width: 85% !important; /* Slightly larger width for better content visibility */
+  max-width: 900px !important; /* Set a maximum width */
+  background-color: #f9f9f9; /* Soft background color */
+  padding: 25px; /* Padding for internal space */
+  box-shadow: 0 50px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 0px !important; /* Soft shadow for depth */
+}
+
+
+
+/* Title */
+.dialog-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: black; /* Beautiful blue color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 3px solid #3f51b5;
+  margin-bottom: 20px;
+}
+
+.dialog-title button {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 30px;
+  color: #d32f2f; /* Red for the close button */
+  transition: color 0.3s ease;
+}
+
+.dialog-title button:hover {
+  color: #b71c1c; /* Darker red on hover */
+}
+
+/* Dialog Content */
+.dialog-content {
+  padding: 20px;
+  background-color: #ffffff; /* White background for the content */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Soft shadow for content */
+  overflow-y: auto;
+}
+
+/* Service Container */
+.service-container {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f0f8ff; /* Light blue background */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Service Title */
+.service-container h3 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #3f51b5; /* Blue color */
+  margin-bottom: 10px;
+  text-align: left; /* Align service name to the left */
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: separate; /* Use separate to allow for spacing between columns */
+  border-spacing: 10px; /* Add space between columns */
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+/* Table Header */
+th {
+  color: black;
+  padding: 12px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #e3f2fd; /* Light blue background for headers */
+}
+
+/* Table Cells */
+td {
+  padding: 12px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  word-wrap: break-word; /* Ensure long text wraps within the cell */
+}
+
+/* Table Hover Effects */
+tr:hover td {
+  background-color: #e3f2fd; /* Light blue on hover */
+}
+
+/* CreatedAt Date Column */
+td.mat-column-createdAt {
+  font-style: italic;
+  color: #9e9e9e;
+}
+
+/* Fixed Column Widths */
+th.mat-column-processName, td.mat-column-processName {
+  width: 35%; /* Set fixed width for Process column */
+}
+
+th.mat-column-definition, td.mat-column-definition {
+  width: 45%; /* Set fixed width for Definition column */
+}
+
+th.mat-column-createdAt, td.mat-column-createdAt {
+  width: 20%; /* Set fixed width for CreatedAt column */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .mat-dialog-container {
+    width: 95% !important;
   }
-  
-  /* Header */
-  h2 {
-    font-size: 26px;
-    font-weight: bold;
-    color: #333;
-    padding-bottom: 10px;
-    border-bottom: 3px solid #3f51b5;
-    margin-bottom: 20px;
+
+  .dialog-title {
+    font-size: 22px;
   }
-  
-  /* Service section */
-  h3 {
+
+  table {
+    font-size: 14px;
+  }
+
+  .service-container h3 {
     font-size: 20px;
-    font-weight: 600;
-    color: #3f51b5;
-    margin-top: 25px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #ccc;
-    text-align: left;
   }
-  
-  /* List styles */
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-    text-align: left;
+
+  th, td {
+    padding: 8px; /* Reduce padding on smaller screens */
   }
-  
-  li {
-    font-size: 16px;
-    color: #444;
-    padding: 10px;
-    background: #f9f9f9;
-    margin-bottom: 8px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease-in-out;
-  }
-  
-  li:hover {
-    background: #e3f2fd;
-  }
-  
-  li strong {
-    color: #d32f2f;
-    font-weight: bold;
-  }
-  
-  /* Pagination Controls */
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    gap: 10px;
-  }
-  
-  .pagination-controls span {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  /* Button styles */
-  button {
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  button[color="primary"] {
-    background-color: #0288d1;
-    color: white;
-  }
-  
-  button[color="primary"]:hover {
-    background-color: #0288d1;
-  }
-  
-  button[color="accent"] {
-    background-color: #3f51b5;
-    color: white;
-  }
-  
-  button[color="accent"]:hover {
-    background-color: #283593;
-  }
-  
-  button[color="warn"] {
-    background-color: #d32f2f;
-    color: white;
-  }
-  
-  button[color="warn"]:hover {
-    background-color: #b71c1c;
-  }
-  
-  /* Disabled button styling */
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Message for missing configuration */
-  .no-config-message {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #d32f2f;
-  }
-  
+}

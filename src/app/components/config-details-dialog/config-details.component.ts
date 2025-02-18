@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { Inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table'; 
 
 export interface ProcessUsage {
   ProcessName: string;
   Definition: string;
+  createdAt: string
 }
 
 export interface ServiceUsage {
@@ -21,14 +25,11 @@ export interface ConfigData {
   selector: 'app-config-details',
   templateUrl: 'config-details.component.html',
   styleUrls: ['config-details.component.css'],
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule, MatTableModule],
 })
 export class ConfigDetailsComponent {
   configDetails: ConfigData | undefined;
-  paginatedServices: ServiceUsage[] = []; // Stores only 2 services per page
-  currentPage = 0;
-  servicesPerPage = 2;
-  totalPages = 0;
+
 
   mockData: ConfigData[] = [
     {
@@ -37,23 +38,23 @@ export class ConfigDetailsComponent {
         {
           ServiceName: 'User Service',
           Usage: [
-            { ProcessName: 'Background Sync', Definition: 'Synchronizes user data with the database.' },
-            { ProcessName: 'Database Migration', Definition: 'Handles schema updates for user database.' },
+            { ProcessName: 'Background Sync', Definition: 'Synchronizes user data with the database.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Database Migration', Definition: 'Handles schema updates for user database.',createdAt: '2025-01-01T12:00:00Z' },
             
           ],
         },
         {
           ServiceName: 'Order Service',
           Usage: [
-            { ProcessName: 'Order Sync', Definition: 'Ensures order consistency in the database.' },
-            { ProcessName: 'Payment Reconciliation', Definition: 'Verifies payments against orders.' },
+            { ProcessName: 'Order Sync', Definition: 'Ensures order consistency in the database.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Payment Reconciliation', Definition: 'Verifies payments against orders.' ,createdAt: '2025-01-01T12:00:00Z'},
           ],
         },
         {
           ServiceName: 'Inventory Service',
           Usage: [
-            { ProcessName: 'Stock Update', Definition: 'Updates stock levels in real-time.' },
-            { ProcessName: 'Low Stock Alert', Definition: 'Triggers alerts for low inventory.' },
+            { ProcessName: 'Stock Update', Definition: 'Updates stock levels in real-time.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Low Stock Alert', Definition: 'Triggers alerts for low inventory.',createdAt: '2025-01-01T12:00:00Z' },
           ],
         },
       ],
@@ -64,62 +65,52 @@ export class ConfigDetailsComponent {
         {
           ServiceName: 'Auth Service',
           Usage: [
-            { ProcessName: 'Session Cleanup', Definition: 'Removes expired user sessions to free up memory and maintain security.' },
-            { ProcessName: 'Cache Invalidation', Definition: 'Refreshes cached authentication data to ensure accurate user access control.' },
+            { ProcessName: 'Session Cleanup', Definition: 'Removes expired user sessions to free up memory and maintain security. Refreshes cached authentication data to ensure accurate user access control',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Cache Invalidation', Definition: 'Refreshes cached authentication data to ensure accurate user access control.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Stock Update', Definition: 'Updates stock levels in real-time.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Low Stock Alert', Definition: 'Triggers alerts for low inventory.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Order Sync', Definition: 'Ensures order consistency in the database.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Payment Reconciliation', Definition: 'Verifies payments against orders.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Background Sync', Definition: 'Synchronizes user data with the database.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Database Migration', Definition: 'Handles schema updates for user database.',createdAt: '2025-01-01T12:00:00Z' }
+
           ],
         },
         {
           ServiceName: 'Payment Service',
           Usage: [
-            { ProcessName: 'Payment Session Timeout', Definition: 'Cancels pending payments after a specified timeout to prevent transaction issues.' },
-            { ProcessName: 'Transaction Cache Update', Definition: 'Updates transaction status in the cache to reflect the latest payment state.' },
+            { ProcessName: 'Payment Session Timeout', Definition: 'Cancels pending payments after a specified timeout to prevent transaction issues.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Transaction Cache Update', Definition: 'Updates transaction status in the cache to reflect the latest payment state.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Stock Update', Definition: 'Updates stock levels in real-time.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Low Stock Alert', Definition: 'Triggers alerts for low inventory.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Order Sync', Definition: 'Ensures order consistency in the database.',createdAt: '2025-01-01T12:00:00Z' },
+            { ProcessName: 'Payment Reconciliation', Definition: 'Verifies payments against orders.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Background Sync', Definition: 'Synchronizes user data with the database.' ,createdAt: '2025-01-01T12:00:00Z'},
+            { ProcessName: 'Database Migration', Definition: 'Handles schema updates for user database.' ,createdAt: '2025-01-01T12:00:00Z'},
           ],
         },
       ],
     }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(public dialogRef: MatDialogRef<ConfigDetailsComponent>,@Inject(MAT_DIALOG_DATA) public data: { configName: string }) {}
+
 
   ngOnInit() {
-    const configName = decodeURIComponent(this.route.snapshot.paramMap.get('configName') || '');
+    const configName = decodeURIComponent(this.data.configName || '');
     console.log('Received configName:', configName);
-
+  
     this.configDetails = this.mockData.find((data) => data.ConfigName === configName);
-
+  
     if (!this.configDetails) {
-      console.warn(`Config '${configName}' not found! Redirecting...`);
-      this.router.navigate(['/']); // Redirect to home if config is not found
+      console.warn(`Config '${configName}' not found!`);
       return;
     }
-
-    this.totalPages = Math.ceil(this.configDetails.Services.length / this.servicesPerPage);
-    this.updatePaginatedServices(); // Slice services for the first page
+  
   }
 
-  updatePaginatedServices() {
-    if (this.configDetails) {
-      const start = this.currentPage * this.servicesPerPage;
-      const end = start + this.servicesPerPage;
-      this.paginatedServices = this.configDetails.Services.slice(start, end);
-    }
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-      this.updatePaginatedServices();
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.updatePaginatedServices();
-    }
-  }
-
-  goBack() {
-    this.router.navigate(['/']);
-  }
 }
